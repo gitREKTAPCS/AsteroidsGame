@@ -1,16 +1,129 @@
 //your variable declarations here
+SpaceShip tomatillo = new SpaceShip();
+
 public void setup() 
 {
-  //your code here
+  size(512, 512);
 }
 public void draw() 
 {
-  //your code here
+  background(0);
+  tomatillo.show();
+  tomatillo.move();
+ 
 }
+
+public void keyPressed(){
+
+  //acclerate + decelerate with limits
+  if(key == 'w' && tomatillo.getDirectionX()<2){
+    tomatillo.accelerate(3);
+  }
+  else if(key == 'w' && tomatillo.getDirectionX()>=2){
+    tomatillo.accelerate(.10);
+  }
+ 
+  if(key == 's' && tomatillo.getDirectionX()<2){
+    tomatillo.declerate(3);
+  }
+  else if(key == 's' && tomatillo.getDirectionX()>=2){
+    tomatillo.declerate(.10);
+  }
+
+//rotate to right
+  if(key == 'd'){
+    tomatillo.rotate(10);
+  }
+
+//rotate to left
+  if(key == 'a'){
+    tomatillo.rotate(-10);
+  }
+
+  if(key == 'f'){
+    tomatillo.setDirectionX(256);
+    tomatillo.setDirectionY(256);
+    tomatillo.accelerate(0);
+    tomatillo.declerate(0);
+  }
+
+}
+
+
 class SpaceShip extends Floater  
 {   
-    //your code here
+    SpaceShip(){
+      myColor=255;
+      corners=12;
+      xCorners = new int[corners];
+      yCorners = new int[corners];
+
+      xCorners[0]=36;
+      yCorners[0]=0;
+
+      xCorners[1]=16;
+      yCorners[1]=8;
+
+      xCorners[2]=28;
+      yCorners[2]=12;
+
+      xCorners[3]=-8;
+      yCorners[3]=16;
+
+      xCorners[4]=-24;
+      yCorners[4]=20;
+
+      xCorners[5]=-12;
+      yCorners[5]=4;
+
+      xCorners[6]=-8;
+      yCorners[6]=0;
+
+      xCorners[7]=-12;
+      yCorners[7]=-8;
+
+      xCorners[8]=-24;
+      yCorners[8]=-20;
+
+      xCorners[9]=-8;
+      yCorners[9]=-16;
+
+      xCorners[10]=28;
+      yCorners[10]=-12;
+
+      xCorners[11]=16;
+      yCorners[11]=-8;
+
+      myCenterX=256;
+      myCenterY=256;
+
+      myDirectionX=0;
+      myDirectionY=0;
+
+      myPointDirection=0;
+    }
+
+  public void setX(int x){myCenterX=x;}  
+
+  public int getX(){return (int)(myCenterX);}   
+
+  public void setY(int y){myCenterY=y;}   
+
+  public int getY(){return (int)(myCenterY);}   
+  
+  public void setDirectionX(double x){myDirectionX=x;}
+
+  public double getDirectionX(){ return myDirectionX;}   
+
+  public void setDirectionY(double y){myDirectionY=y;}  
+
+  public double getDirectionY(){return myDirectionY;} 
+
+  public void setPointDirection(int degrees){myPointDirection=degrees;} 
+
+  public double getPointDirection(){return myPointDirection;}
 }
+
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
@@ -21,34 +134,25 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
   
-  abstract public void setX(int x){
-    myCenterX=x;
-  }  
+  abstract public void setX(int x);
 
-  abstract public int getX(){
-    return myCenterX;
-  }   
+  abstract public int getX();
 
-  abstract public void setY(int y){
-    myCenterY=y;
-  }   
-  abstract public int getY(){
-    return myCenterY;
-  }   
-  abstract public void setDirectionX(double x){
-    myDirectionX=x;
-  }   
+  abstract public void setY(int y);
 
-  abstract public double getDirectionX(){
-    return myDirectionX;
-  }   
+  abstract public int getY();   
+  
+  abstract public void setDirectionX(double x);
 
-  abstract public void setDirectionY(double y){
-    
-  }  
-  abstract public double getDirectionY();   
-  abstract public void setPointDirection(int degrees);   
-  abstract public double getPointDirection(); 
+  abstract public double getDirectionX(); 
+
+  abstract public void setDirectionY(double y);  
+
+  abstract public double getDirectionY();
+
+  abstract public void setPointDirection(int degrees); 
+
+  abstract public double getPointDirection();
 
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate (double dAmount)   
@@ -58,6 +162,14 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     //change coordinates of direction of travel    
     myDirectionX += ((dAmount) * Math.cos(dRadians));    
     myDirectionY += ((dAmount) * Math.sin(dRadians));       
+  }   
+  public void declerate (double dAmount)   
+  {          
+    //convert the current direction the floater is pointing to radians    
+    double dRadians =myPointDirection*(Math.PI/180);     
+    //change coordinates of direction of travel    
+    myDirectionX -= ((dAmount) * Math.cos(dRadians));    
+    myDirectionY -= ((dAmount) * Math.sin(dRadians));       
   }   
   public void rotate (int nDegreesOfRotation)   
   {     
