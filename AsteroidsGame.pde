@@ -1,50 +1,60 @@
 //your variable declarations here
 SpaceShip tomatillo = new SpaceShip();
+Star rhinohippomachine[] = new Star[100];
+
+
 
 public void setup() 
 {
-  size(512, 512);
+  size(1000, 1000);
+  for(int i =0; i<rhinohippomachine.length; i++){
+  rhinohippomachine[i] = new Star();
+}
 }
 public void draw() 
 {
   background(0);
   tomatillo.show();
   tomatillo.move();
+
+  for(int i =0; i<rhinohippomachine.length; i++){
+  rhinohippomachine[i].show();
+}
  
 }
 
 public void keyPressed(){
 
   //acclerate + decelerate with limits
-  if(key == 'w' && tomatillo.getDirectionX()<2){
-    tomatillo.accelerate(3);
+  if(key == 'w' && (tomatillo.getDirectionX()<3 && tomatillo.getDirectionX() >-3) && (tomatillo.getDirectionY()<3 && tomatillo.getDirectionY() >-3)){
+    tomatillo.accelerate(.1);
   }
-  else if(key == 'w' && tomatillo.getDirectionX()>=2){
-    tomatillo.accelerate(.10);
+  else if(key == 'w' && (tomatillo.getDirectionX()>=3 || tomatillo.getDirectionX() <=-3) || (tomatillo.getDirectionY()>=3 && tomatillo.getDirectionY() <=-3)){
+    tomatillo.accelerate(.07);
   }
  
-  if(key == 's' && tomatillo.getDirectionX()<2){
-    tomatillo.declerate(3);
+  if(key == 's' && (tomatillo.getDirectionX()<3 && tomatillo.getDirectionX() >-3) && (tomatillo.getDirectionY()<3 && tomatillo.getDirectionY() >-3)){
+    tomatillo.declerate(.1);
   }
-  else if(key == 's' && tomatillo.getDirectionX()>=2){
-    tomatillo.declerate(.10);
+  else if(key == 's' && (tomatillo.getDirectionX()>=3 || tomatillo.getDirectionX() <=-3) || (tomatillo.getDirectionY()>=3 && tomatillo.getDirectionY() <=-3)){
+    tomatillo.declerate(.07);
   }
 
 //rotate to right
   if(key == 'd'){
-    tomatillo.rotate(10);
+    tomatillo.rotate(5);
   }
 
 //rotate to left
   if(key == 'a'){
-    tomatillo.rotate(-10);
+    tomatillo.rotate(-5);
   }
 
   if(key == 'f'){
-    tomatillo.setDirectionX(256);
-    tomatillo.setDirectionY(256);
-    tomatillo.accelerate(0);
-    tomatillo.declerate(0);
+    tomatillo.setX(500);
+    tomatillo.setX(500);
+    tomatillo.setDirectionX(0);
+    tomatillo.setDirectionY(0);
   }
 
 }
@@ -94,8 +104,8 @@ class SpaceShip extends Floater
       xCorners[11]=16;
       yCorners[11]=-8;
 
-      myCenterX=256;
-      myCenterY=256;
+      myCenterX=500;
+      myCenterY=500;
 
       myDirectionX=0;
       myDirectionY=0;
@@ -123,6 +133,21 @@ class SpaceShip extends Floater
 
   public double getPointDirection(){return myPointDirection;}
 }
+
+class Star
+{
+  private int myX, myY;
+  public Star(){
+      myX = (int)(Math.random()*1000);
+      myY = (int)(Math.random()*1000);
+  }
+  public void show(){
+    fill(255);
+    ellipse(myX, myY, 2, 2);
+  }
+
+}
+
 
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
