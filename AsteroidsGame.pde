@@ -1,8 +1,7 @@
 //your variable declarations here
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
-
-
+Asteroids aster = new Asteroids();
 
 public void setup() 
 {
@@ -10,16 +9,22 @@ public void setup()
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i] = new Star();
 }
+
 }
 public void draw() 
 {
   background(0);
-  tomatillo.show();
+  aster.move();
+  aster.show();
   tomatillo.move();
-
+  tomatillo.show();
+   
+  
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i].show();
 }
+
+
  
 }
 
@@ -28,20 +33,20 @@ public void keyPressed(){
   //acclerate + decelerate with limits
   if(key == 'w' ){
     tomatillo.accelerate(.1);
-    tomatillo.isForward=true;
+    tomatillo.setForward(true);
   }
   else{
-    tomatillo.isForward=false;
+    tomatillo.setForward(false);
   }
   
  
  
   if(key == 's' ){
     tomatillo.declerate(.1);
-    tomatillo.isBackwards=true;
+    tomatillo.setBackward(true);
   }
   else{
-    tomatillo.isBackwards=false;
+    tomatillo.setBackward(false);
   }
  
 
@@ -98,6 +103,8 @@ class SpaceShip extends Floater
   private int lines4;
   private int[] xLines4;   
   private int[] yLines4;
+  private boolean isForward;
+  private boolean isBackwards;
 
     SpaceShip(){
       myColor=255;
@@ -145,6 +152,7 @@ class SpaceShip extends Floater
 
 
       //rockets for spaceship
+      //forard rockets
       lines1=7;
 
       xLines1 = new int[lines1];
@@ -197,7 +205,7 @@ class SpaceShip extends Floater
       xLines2[6]=-28;
       yLines2[6]= -12;
 
-
+//backward rockets
       lines3=7;
 
       xLines3 = new int[lines3];
@@ -283,6 +291,14 @@ class SpaceShip extends Floater
 
   public double getPointDirection(){return myPointDirection;}
 
+  public boolean getForward(){return isForward;}
+
+  public void setForward(boolean newForward){isForward=newForward;}
+
+  public boolean getBackward(){return isBackwards;}
+
+  public void setBackward(boolean newBackward){isBackwards=newBackward;}
+
     public void show ()  //Draws the floater at the current position  
   { 
 
@@ -305,7 +321,7 @@ class SpaceShip extends Floater
     if(isForward==true){
        for(int nI = 0; nI < lines1; nI++)    
     {     
-      //rotate and translate the coordinates of the rockets using current direction 
+      //rotate and translate the coordinates of the forward rockets using current direction 
       xLineRotatedTranslated1 = (float)((xLines1[nI]* Math.cos(dRadians)) - (yLines1[nI] * Math.sin(dRadians))+myCenterX);     
       yLineRotatedTranslated1 = (float)((xLines1[nI]* Math.sin(dRadians)) + (yLines1[nI] * Math.cos(dRadians))+myCenterY);      
     
@@ -320,60 +336,99 @@ class SpaceShip extends Floater
     if(isBackwards==true){
        for(int nI = 0; nI < lines3; nI++)    
     {     
-      //rotate and translate the coordinates of the rockets using current direction 
+      //rotate and translate the coordinates of the bckward rockets using current direction 
       xLineRotatedTranslated3 = (float)((xLines3[nI]* Math.cos(dRadians)) - (yLines3[nI] * Math.sin(dRadians))+myCenterX);     
       yLineRotatedTranslated3 = (float)((xLines3[nI]* Math.sin(dRadians)) + (yLines3[nI] * Math.cos(dRadians))+myCenterY);      
     
       xLineRotatedTranslated4 = (float)((xLines4[nI]* Math.cos(dRadians)) - (yLines4[nI] * Math.sin(dRadians))+myCenterX);     
       yLineRotatedTranslated4 = (float)((xLines4[nI]* Math.sin(dRadians)) + (yLines4[nI] * Math.cos(dRadians))+myCenterY); 
-      stroke(0,0,255);
+      stroke(0,255,255);
       strokeWeight(2);
       line(xLineRotatedTranslated3, yLineRotatedTranslated3, xLineRotatedTranslated4, yLineRotatedTranslated4);  
     }  
    
     }  
+  }
+
   }   
+
+
+class Asteroids extends Floater{
+
+private int rotSpeed;
+  
+ public void setX(int x){myCenterX=x;}  
+
+  public int getX(){return (int)(myCenterX);}   
+
+  public void setY(int y){myCenterY=y;}   
+
+  public int getY(){return (int)(myCenterY);}   
+  
+  public void setDirectionX(double x){myDirectionX=x;}
+
+  public double getDirectionX(){ return myDirectionX;}   
+
+  public void setDirectionY(double y){myDirectionY=y;}  
+
+  public double getDirectionY(){return myDirectionY;} 
+
+  public void setPointDirection(int degrees){myPointDirection=degrees;} 
+
+  public double getPointDirection(){return myPointDirection;}
+
+  Asteroids(){
+
+    myColor=255;
+
+    corners=8;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+
+    xCorners[0]=28;
+    yCorners[0]=0;
+
+    xCorners[1]=20;
+    yCorners[1]=24;
+
+    xCorners[2]=0;
+    yCorners[2]=32;
+
+    xCorners[3]=-16;
+    yCorners[3]=16;
+
+    xCorners[4]=-20;
+    yCorners[4]=-8;
+
+    xCorners[5]=-8;
+    yCorners[5]=-32;
+
+    xCorners[6]=8;
+    yCorners[6]=-16;
+
+    xCorners[7]=24;
+    yCorners[7]=-20;
+
+    myCenterX=245;
+    myCenterY=245;
+    
+
+    myDirectionX=0;
+    myDirectionY=0;
+
+    myPointDirection=(int)(Math.random()*360);
+
+    rotSpeed=(int)(Math.random()*32-16);
+  }
+
+  public void move ()   //move the floater in the current direction of travel
+  {      
+    rotate(rotSpeed);
+   super.move();
 }
 
-/*class Asteroids extends Floater{
-
-  private int corners;  //the number of corners, a triangular floater has 3   
-  private int[] xCorners;   
-  private int[] yCorners; 
-  private int lines1;
-  private int[] xLines1;   
-  private int[] yLines1;  
-  private int lines2;
-  private int[] xLines2;   
-  private int[] yLines2;   
-  private int myColor;   
-  private double myCenterX, myCenterY; //holds center coordinates   
-  private double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
-  private double myPointDirection; //holds current direction the ship is pointing in degrees  
-  private boolean isForward;
-  
-   public void setX(int x){}
-
-   public int getX(){}
-
-   public void setY(int y){}
-
-   public int getY(){}   
-  
-   public void setDirectionX(double x){}
-
-   public double getDirectionX(){} 
-
-   public void setDirectionY(double y){}  
-
-   public double getDirectionY(){}
-
-   public void setPointDirection(int degrees){} 
-
-   public double getPointDirection(){}
-
 }
-*/
+
 class Star
 {
   private int myX, myY;
@@ -399,8 +454,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees  
-  protected boolean isForward;
-  protected boolean isBackwards;
+ 
   
   abstract public void setX(int x);
 
@@ -476,7 +530,6 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;
-    float xLineRotatedTranslated1, yLineRotatedTranslated1, xLineRotatedTranslated2, yLineRotatedTranslated2,xLineRotatedTranslated3, yLineRotatedTranslated3,xLineRotatedTranslated4, yLineRotatedTranslated4;    
     beginShape();         
     for(int nI = 0; nI < corners; nI++)    
     {     
