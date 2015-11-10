@@ -1,7 +1,7 @@
 //your variable declarations here
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
-Asteroids aster = new Asteroids();
+Asteroids johnCena[] = new Asteroids[7];
 
 public void setup() 
 {
@@ -10,16 +10,20 @@ public void setup()
   rhinohippomachine[i] = new Star();
 }
 
+  for(int i=0; i<johnCena.length;i++){
+    johnCena[i] = new Asteroids();
+  }
+
 }
 public void draw() 
 {
   background(0);
-  aster.move();
-  aster.show();
   tomatillo.move();
   tomatillo.show();
-   
-  
+   for(int i =0; i<johnCena.length; i++){
+  johnCena[i].move();
+  johnCena[i].show();
+}
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i].show();
 }
@@ -409,22 +413,22 @@ private int rotSpeed;
     xCorners[7]=24;
     yCorners[7]=-20;
 
-    myCenterX=245;
-    myCenterY=245;
+    myCenterX=(double)(Math.random()*1000);
+    myCenterY=(double)(Math.random()*1000);
     
 
-    myDirectionX=0;
-    myDirectionY=0;
+    myDirectionX=(double)(Math.random()*2.5);
+    myDirectionY=(double)(Math.random()*2.5);
 
     myPointDirection=(int)(Math.random()*360);
 
-    rotSpeed=(int)(Math.random()*32-16);
+    rotSpeed=(int)(Math.random()*10-5);
   }
 
   public void move ()   //move the floater in the current direction of travel
   {      
     rotate(rotSpeed);
-   super.move();
+    super.move();   
 }
 
 }
