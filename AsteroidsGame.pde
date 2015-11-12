@@ -2,10 +2,14 @@
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
 Asteroids johnCena[] = new Asteroids[7];
+boolean wIsPressed = false;
+boolean aIsPressed = false;
+boolean sIsPressed = false;
+boolean dIsPressed = false;
 
 public void setup() 
 {
-  size(1000, 1000);
+  size(500, 500);
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i] = new Star();
 }
@@ -28,55 +32,85 @@ public void draw()
   rhinohippomachine[i].show();
 }
 
-
- 
 }
 
 public void keyPressed(){
 
   //acclerate + decelerate with limits
+
+  if(aIsPressed == true && wIsPressed == true)
+  {
+    tomatillo.accelerate(.1);
+    tomatillo.setForward(true);
+    tomatillo.rotate(-5);
+
+  }
+  if(sIsPressed == true && dIsPressed == true)
+  {
+    tomatillo.declerate(.1);
+    tomatillo.setBackward(true);
+    tomatillo.rotate(5);
+  }
+   if(aIsPressed == true && sIsPressed == true)
+  {
+    tomatillo.declerate(.1);
+    tomatillo.setBackward(true);
+    tomatillo.rotate(-5);
+
+  }
+  if(wIsPressed == true && dIsPressed == true)
+  {
+    tomatillo.accelerate(.1);
+    tomatillo.setForward(true);
+    tomatillo.rotate(5);
+  }
+
+
   if(key == 'w' ){
     tomatillo.accelerate(.1);
     tomatillo.setForward(true);
+    wIsPressed=true;
   }
   else{
     tomatillo.setForward(false);
   }
   
- 
- 
   if(key == 's' ){
     tomatillo.declerate(.1);
     tomatillo.setBackward(true);
+    sIsPressed=true;
   }
   else{
     tomatillo.setBackward(false);
   }
  
-
 //rotate to right
   if(key == 'd'){
     tomatillo.rotate(5);
+    dIsPressed=true;
   }
   
 
 //rotate to left
   if(key == 'a'){
     tomatillo.rotate(-5);
+    aIsPressed=true;
   }
 
- if (key == CODED) {
+if (key == CODED) {
   if(keyCode == RIGHT){
     tomatillo.rotate(5);
+    dIsPressed=true;
   }
   if(keyCode == LEFT){
     tomatillo.rotate(-5);
+    aIsPressed=true;
   }
   }
 
   if(key == 'f'){
-    tomatillo.setX(500);
-    tomatillo.setX(500);
+    tomatillo.setX((int)(Math.random()*500));
+    tomatillo.setY((int)(Math.random()*500));
     tomatillo.setDirectionX(0);
     tomatillo.setDirectionY(0);
   }
@@ -91,6 +125,37 @@ public void keyPressed(){
 
 }
 
+public void keyReleased(){
+  if(key=='a')
+  {
+    aIsPressed = false;
+  }
+  else if (key == 'w')
+  {
+    wIsPressed = false;
+    tomatillo.setForward(false);
+  }
+
+  if(key=='s')
+  {
+    sIsPressed = false;
+    tomatillo.setBackward(false);
+  }
+  else if (key == 'd')
+  {
+    dIsPressed = false;
+  }
+
+  if (key == CODED) {
+  if(keyCode == RIGHT){
+    dIsPressed=false;
+  }
+  if(keyCode == LEFT){
+    tomatillo.rotate(-5);
+    aIsPressed=false;
+  }
+  }
+}
 
 class SpaceShip extends Floater  
 {   
@@ -118,41 +183,41 @@ class SpaceShip extends Floater
       xCorners = new int[corners];
       yCorners = new int[corners];
 
-      xCorners[0]=36;
-      yCorners[0]=0;
+      xCorners[0]=36/2;
+      yCorners[0]=0/2;
 
-      xCorners[1]=16;
-      yCorners[1]=8;
+      xCorners[1]=16/2;
+      yCorners[1]=8/2;
 
-      xCorners[2]=28;
-      yCorners[2]=12;
+      xCorners[2]=28/2;
+      yCorners[2]=12/2;
 
-      xCorners[3]=-8;
-      yCorners[3]=16;
+      xCorners[3]=-8/2;
+      yCorners[3]=16/2;
 
-      xCorners[4]=-24;
-      yCorners[4]=20;
+      xCorners[4]=-24/2;
+      yCorners[4]=20/2;
 
-      xCorners[5]=-12;
-      yCorners[5]=4;
+      xCorners[5]=-12/2;
+      yCorners[5]=4/2;
 
-      xCorners[6]=-8;
-      yCorners[6]=0;
+      xCorners[6]=-8/2;
+      yCorners[6]=0/2;
 
-      xCorners[7]=-12;
-      yCorners[7]=-8;
+      xCorners[7]=-12/2;
+      yCorners[7]=-8/2;
 
-      xCorners[8]=-24;
-      yCorners[8]=-20;
+      xCorners[8]=-24/2;
+      yCorners[8]=-20/2;
 
-      xCorners[9]=-8;
-      yCorners[9]=-16;
+      xCorners[9]=-8/2;
+      yCorners[9]=-16/2;
 
-      xCorners[10]=28;
-      yCorners[10]=-12;
+      xCorners[10]=28/2;
+      yCorners[10]=-12/2;
 
-      xCorners[11]=16;
-      yCorners[11]=-8;
+      xCorners[11]=16/2;
+      yCorners[11]=-8/2;
 
 
       //rockets for spaceship
@@ -162,52 +227,52 @@ class SpaceShip extends Floater
       xLines1 = new int[lines1];
       yLines1 = new int[lines1];
 
-      xLines1[0]=-20;
-      yLines1[0]= 12;
+      xLines1[0]=-20/2;
+      yLines1[0]= 12/2;
 
-      xLines1[1]=-20;
-      yLines1[1]= 8;
+      xLines1[1]=-20/2;
+      yLines1[1]= 8/2;
 
-      xLines1[2]=-20;
-      yLines1[2]= 4;
+      xLines1[2]=-20/2;
+      yLines1[2]= 4/2;
 
-      xLines1[3]=-20;
-      yLines1[3]= 0;
+      xLines1[3]=-20/2;
+      yLines1[3]= 0/2;
 
-      xLines1[4]=-20;
-      yLines1[4]= -4;
+      xLines1[4]=-20/2;
+      yLines1[4]= -4/2;
 
-      xLines1[5]=-20;
-      yLines1[5]= -8;
+      xLines1[5]=-20/2;
+      yLines1[5]= -8/2;
 
-      xLines1[6]=-20;
-      yLines1[6]= -12;
+      xLines1[6]=-20/2;
+      yLines1[6]= -12/2;
 
       lines2=7;
 
       xLines2 = new int[lines2];
       yLines2 = new int[lines2];
 
-      xLines2[0]=-28;
-      yLines2[0]= 12;
+      xLines2[0]=-28/2;
+      yLines2[0]= 12/2;
 
-      xLines2[1]=-28;
-      yLines2[1]= 8;
+      xLines2[1]=-28/2;
+      yLines2[1]= 8/2;
 
-      xLines2[2]=-28;
-      yLines2[2]= 4;
+      xLines2[2]=-28/2;
+      yLines2[2]= 4/2;
 
-      xLines2[3]=-28;
-      yLines2[3]= 0;
+      xLines2[3]=-28/2;
+      yLines2[3]= 0/2;
 
-      xLines2[4]=-28;
-      yLines2[4]= -4;
+      xLines2[4]=-28/2;
+      yLines2[4]= -4/2;
 
-      xLines2[5]=-28;
-      yLines2[5]= -8;
+      xLines2[5]=-28/2;
+      yLines2[5]= -8/2;
 
-      xLines2[6]=-28;
-      yLines2[6]= -12;
+      xLines2[6]=-28/2;
+      yLines2[6]= -12/2;
 
 //backward rockets
       lines3=7;
@@ -215,56 +280,56 @@ class SpaceShip extends Floater
       xLines3 = new int[lines3];
       yLines3 = new int[lines3];
 
-      xLines3[0]=42;
-      yLines3[0]= 8;
+      xLines3[0]=42/2;
+      yLines3[0]= 8/2;
 
-      xLines3[1]=42;
-      yLines3[1]= 4;
+      xLines3[1]=42/2;
+      yLines3[1]= 4/2;
 
-      xLines3[2]= 42;
-      yLines3[2]= 0;
+      xLines3[2]= 42/2;
+      yLines3[2]= 0/2;
 
-      xLines3[3]= 42;
-      yLines3[3]= -4;
+      xLines3[3]= 42/2;
+      yLines3[3]= -4/2;
 
-      xLines3[4]=42;
-      yLines3[4]= -8;
+      xLines3[4]=42/2;
+      yLines3[4]= -8/2;
 
-      xLines3[5]=42;
-      yLines3[5]= 12;
+      xLines3[5]=42/2;
+      yLines3[5]= 12/2;
 
-      xLines3[6]=42;
-      yLines3[6]= -12;
+      xLines3[6]=42/2;
+      yLines3[6]= -12/2;
 
       lines4=7;
 
       xLines4 = new int[lines4];
       yLines4 = new int[lines4];
 
-      xLines4[0]=48;
-      yLines4[0]= 8;
+      xLines4[0]=48/2;
+      yLines4[0]= 8/2;
 
-      xLines4[1]=48;
-      yLines4[1]= 4;
+      xLines4[1]=48/2;
+      yLines4[1]= 4/2;
 
-      xLines4[2]= 48;
-      yLines4[2]= 0;
+      xLines4[2]= 48/2;
+      yLines4[2]= 0/2;
 
-      xLines4[3]= 48;
-      yLines4[3]= -4;
+      xLines4[3]= 48/2;
+      yLines4[3]= -4/2;
 
-      xLines4[4]=48;
-      yLines4[4]= -8;
+      xLines4[4]=48/2;
+      yLines4[4]= -8/2;
 
-      xLines4[5]=48;
-      yLines4[5]= 12;
+      xLines4[5]=48/2;
+      yLines4[5]= 12/2;
 
-      xLines4[6]=48;
-      yLines4[6]= -12;
+      xLines4[6]=48/2;
+      yLines4[6]= -12/2;
 
 //directions,etc.
-      myCenterX=500;
-      myCenterY=500;
+      myCenterX=250;
+      myCenterY=250;
 
       myDirectionX=0;
       myDirectionY=0;
@@ -383,42 +448,42 @@ private int rotSpeed;
 
   Asteroids(){
 
-    myColor=255;
+    myColor=100;
 
     corners=8;
     xCorners = new int[corners];
     yCorners = new int[corners];
 
-    xCorners[0]=28;
-    yCorners[0]=0;
+    xCorners[0]=28/2;
+    yCorners[0]=0/2;
 
-    xCorners[1]=20;
-    yCorners[1]=24;
+    xCorners[1]=20/2;
+    yCorners[1]=24/2;
 
-    xCorners[2]=0;
-    yCorners[2]=32;
+    xCorners[2]=0/2;
+    yCorners[2]=32/2;
 
-    xCorners[3]=-16;
-    yCorners[3]=16;
+    xCorners[3]=-16/2;
+    yCorners[3]=16/2;
 
-    xCorners[4]=-20;
-    yCorners[4]=-8;
+    xCorners[4]=-20/2;
+    yCorners[4]=-8/2;
 
-    xCorners[5]=-8;
-    yCorners[5]=-32;
+    xCorners[5]=-8/2;
+    yCorners[5]=-32/2;
 
-    xCorners[6]=8;
-    yCorners[6]=-16;
+    xCorners[6]=8/2;
+    yCorners[6]=-16/2;
 
-    xCorners[7]=24;
-    yCorners[7]=-20;
+    xCorners[7]=24/2;
+    yCorners[7]=-20/2;
 
-    myCenterX=(double)(Math.random()*1000);
-    myCenterY=(double)(Math.random()*1000);
+    myCenterX=(double)(Math.random()*500);
+    myCenterY=(double)(Math.random()*500);
     
 
-    myDirectionX=(double)(Math.random()*2.5);
-    myDirectionY=(double)(Math.random()*2.5);
+    myDirectionX=(double)(Math.random()*1.5);
+    myDirectionY=(double)(Math.random()*1.5);
 
     myPointDirection=(int)(Math.random()*360);
 
@@ -437,8 +502,8 @@ class Star
 {
   private int myX, myY;
   public Star(){
-      myX = (int)(Math.random()*1000);
-      myY = (int)(Math.random()*1000);
+      myX = (int)(Math.random()*500);
+      myY = (int)(Math.random()*500);
   }
   public void show(){
     fill(255);
