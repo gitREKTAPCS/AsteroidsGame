@@ -1,6 +1,8 @@
 //your variable declarations here
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
+/*ArrayList <Asteroids> aster;
+Asteroids johnCena = new Asteroids();  */
 Asteroids johnCena[] = new Asteroids[7];
 boolean wIsPressed = false;
 boolean aIsPressed = false;
@@ -13,6 +15,9 @@ public void setup()
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i] = new Star();
 }
+  
+  /*aster= new ArrayList <Asteroids>();
+  aster.add(johnCena);*/
 
   for(int i=0; i<johnCena.length;i++){
     johnCena[i] = new Asteroids();
@@ -22,14 +27,28 @@ public void setup()
 public void draw() 
 {
   background(0);
-  tomatillo.move();
-  tomatillo.show();
-   for(int i =0; i<johnCena.length; i++){
-  johnCena[i].move();
-  johnCena[i].show();
+ 
+ tomatillo.setRed((int)(Math.random()*255));
+ tomatillo.setGreen((int)(Math.random()*255));
+ tomatillo.setBlue((int)(Math.random()*255));
+/*   for(int i =0; i<aster.size; i++){
+  aster[i].move();
+  aster[i].show();
 }
+*/
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i].show();
+}
+
+tomatillo.move();
+  tomatillo.show();
+
+for(int i =0; i<johnCena.length; i++){
+  johnCena[i].move();
+  johnCena[i].show();
+   johnCena[i].setRed((int)(Math.random()*255));
+ johnCena[i].setGreen((int)(Math.random()*255));
+ johnCena[i].setBlue((int)(Math.random()*255));
 }
 
 }
@@ -176,7 +195,9 @@ class SpaceShip extends Floater
   private boolean isBackwards;
 
     SpaceShip(){
-      myColor=255;
+      myRed=255;
+      myGreen=0;
+      myBlue=0;
 
       //corners for spaceship
       corners=12;
@@ -368,11 +389,23 @@ class SpaceShip extends Floater
 
   public void setBackward(boolean newBackward){isBackwards=newBackward;}
 
+  public int getRed(){return myRed;}
+
+  public void setRed(int newRed){myRed=newRed;}
+
+  public int getGreen(){return myGreen;}
+
+  public void setGreen(int newGreen){myGreen=newGreen;}
+
+  public int getBlue(){return myBlue;}
+
+  public void setBlue(int newBlue){myBlue=newBlue;}
+
     public void show ()  //Draws the floater at the current position  
   { 
 
-    fill(myColor);   
-    stroke(myColor);    
+    fill(myRed,myGreen,myBlue);   
+    stroke(myRed,myGreen,myBlue);   
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;
@@ -411,7 +444,7 @@ class SpaceShip extends Floater
     
       xLineRotatedTranslated4 = (float)((xLines4[nI]* Math.cos(dRadians)) - (yLines4[nI] * Math.sin(dRadians))+myCenterX);     
       yLineRotatedTranslated4 = (float)((xLines4[nI]* Math.sin(dRadians)) + (yLines4[nI] * Math.cos(dRadians))+myCenterY); 
-      stroke(0,255,255);
+      stroke(255, 0, 0);
       strokeWeight(2);
       line(xLineRotatedTranslated3, yLineRotatedTranslated3, xLineRotatedTranslated4, yLineRotatedTranslated4);  
     }  
@@ -446,9 +479,23 @@ private int rotSpeed;
 
   public double getPointDirection(){return myPointDirection;}
 
+  public int getRed(){return myRed;}
+
+  public void setRed(int newRed){myRed=newRed;}
+
+  public int getGreen(){return myGreen;}
+
+  public void setGreen(int newGreen){myGreen=newGreen;}
+
+  public int getBlue(){return myBlue;}
+
+  public void setBlue(int newBlue){myBlue=newBlue;}
+
   Asteroids(){
 
-    myColor=100;
+    myRed=100;
+    myGreen=100;
+    myBlue=100;
 
     corners=8;
     xCorners = new int[corners];
@@ -519,7 +566,9 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;   
   protected int[] yCorners; 
-  protected int myColor;   
+  protected int myRed;
+  protected int myGreen;
+  protected int myBlue;   
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees  
@@ -544,6 +593,18 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   abstract public void setPointDirection(int degrees); 
 
   abstract public double getPointDirection();
+
+   abstract public int getRed();
+
+  abstract public void setRed(int newRed);
+
+ abstract public int getGreen();
+
+  abstract public void setGreen(int newGreen);
+
+  abstract public int getBlue();
+
+  abstract public void setBlue(int newBlue);
 
   //Accelerates the floater in the direction it is pointing (myPointDirection)   
   public void accelerate (double dAmount)   
@@ -594,8 +655,8 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   }   
   public void show ()  //Draws the floater at the current position  
   {             
-    fill(myColor);   
-    stroke(myColor);    
+    fill(myRed,myGreen,myBlue);   
+    stroke(myRed,myGreen,myBlue);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;
