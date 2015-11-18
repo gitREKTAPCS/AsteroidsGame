@@ -1,9 +1,7 @@
 //your variable declarations here
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
-/*ArrayList <Asteroids> aster;
-Asteroids johnCena = new Asteroids();  */
-Asteroids johnCena[] = new Asteroids[7];
+ArrayList <Asteroids> aster = new ArrayList <Asteroids>();
 boolean wIsPressed = false;
 boolean aIsPressed = false;
 boolean sIsPressed = false;
@@ -16,14 +14,12 @@ public void setup()
   rhinohippomachine[i] = new Star();
 }
   
-  /*aster= new ArrayList <Asteroids>();
-  aster.add(johnCena);*/
-
-  for(int i=0; i<johnCena.length;i++){
-    johnCena[i] = new Asteroids();
+  for(int x=0; x<9; x++){
+    aster.add(new Asteroids());
   }
 
 }
+
 public void draw() 
 {
   background(0);
@@ -31,25 +27,22 @@ public void draw()
  tomatillo.setRed((int)(Math.random()*255));
  tomatillo.setGreen((int)(Math.random()*255));
  tomatillo.setBlue((int)(Math.random()*255));
-/*   for(int i =0; i<aster.size; i++){
-  aster[i].move();
-  aster[i].show();
+
+for(int i =0; i<aster.size(); i++){
+  aster.get(i).move();
+  aster.get(i).show();
+
+  if(dist(aster.get(i).getX(),aster.get(i).getY(),tomatillo.getX(),tomatillo.getY())<=20){
+    aster.remove(i);
+  }
 }
-*/
+
   for(int i =0; i<rhinohippomachine.length; i++){
   rhinohippomachine[i].show();
 }
 
-tomatillo.move();
+  tomatillo.move();
   tomatillo.show();
-
-for(int i =0; i<johnCena.length; i++){
-  johnCena[i].move();
-  johnCena[i].show();
-   johnCena[i].setRed((int)(Math.random()*255));
- johnCena[i].setGreen((int)(Math.random()*255));
- johnCena[i].setBlue((int)(Math.random()*255));
-}
 
 }
 
