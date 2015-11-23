@@ -2,6 +2,7 @@
 SpaceShip tomatillo = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
 ArrayList <Asteroids> aster = new ArrayList <Asteroids>();
+ArrayList <Bullet> johnCena = new ArrayList <Bullet>();
 boolean wIsPressed = false;
 boolean aIsPressed = false;
 boolean sIsPressed = false;
@@ -18,6 +19,8 @@ public void setup()
     aster.add(new Asteroids());
   }
 
+  
+
 }
 
 public void draw() 
@@ -28,6 +31,10 @@ public void draw()
  tomatillo.setGreen((int)(Math.random()*255));
  tomatillo.setBlue((int)(Math.random()*255));
 
+for(int i =0; i<rhinohippomachine.length; i++){
+  rhinohippomachine[i].show();
+}
+
 for(int i =0; i<aster.size(); i++){
   aster.get(i).move();
   aster.get(i).show();
@@ -37,12 +44,15 @@ for(int i =0; i<aster.size(); i++){
   }
 }
 
-  for(int i =0; i<rhinohippomachine.length; i++){
-  rhinohippomachine[i].show();
-}
+  for(int i =0; i<johnCena.size(); i++){
+    
+    johnCena.get(i).move();
+    johnCena.get(i).show();
+  }
 
   tomatillo.move();
   tomatillo.show();
+ 
 
 }
 
@@ -109,6 +119,10 @@ public void keyPressed(){
     aIsPressed=true;
   }
 
+  if(key == 'x'){
+    johnCena.add(new Bullet(tomatillo));
+  }
+
 if (key == CODED) {
   if(keyCode == RIGHT){
     tomatillo.rotate(5);
@@ -118,6 +132,8 @@ if (key == CODED) {
     tomatillo.rotate(-5);
     aIsPressed=true;
   }
+
+
   }
 
   if(key == 'f'){
@@ -125,6 +141,7 @@ if (key == CODED) {
     tomatillo.setY((int)(Math.random()*500));
     tomatillo.setDirectionX(0);
     tomatillo.setDirectionY(0);
+    tomatillo.setPointDirection((int)(Math.random()*360));
   }
 
 //automatic hyperspace
@@ -537,7 +554,65 @@ private int rotSpeed;
 }
 
 }
+class Bullet extends Floater{
 
+ double dRadians;
+
+  Bullet(SpaceShip theShip){
+    myCenterX=theShip.getX();
+    myCenterY=theShip.getY();
+    myPointDirection=theShip.myPointDirection;
+    dRadians = myPointDirection*(Math.PI/180);   
+    myDirectionX=5*Math.cos(dRadians) + myDirectionX;
+    myDirectionY=5*Math.sin(dRadians) + myDirectionY;
+    myRed=255;
+    myGreen=0;
+    myBlue=0;
+  }
+
+public void setX(int x){myCenterX=x;}  
+
+  public int getX(){return (int)(myCenterX);}   
+
+  public void setY(int y){myCenterY=y;}   
+
+  public int getY(){return (int)(myCenterY);}   
+  
+  public void setDirectionX(double x){myDirectionX=x;}
+
+  public double getDirectionX(){ return myDirectionX;}   
+
+  public void setDirectionY(double y){myDirectionY=y;}  
+
+  public double getDirectionY(){return myDirectionY;} 
+
+  public void setPointDirection(int degrees){myPointDirection=degrees;} 
+
+  public double getPointDirection(){return myPointDirection;}
+
+  public int getRed(){return myRed;}
+
+  public void setRed(int newRed){myRed=newRed;}
+
+  public int getGreen(){return myGreen;}
+
+  public void setGreen(int newGreen){myGreen=newGreen;}
+
+  public int getBlue(){return myBlue;}
+
+  public void setBlue(int newBlue){myBlue=newBlue;}
+
+  public void show ()  //Draws the floater at the current position  
+  {             
+    fill(myRed,myGreen,myBlue);   
+    stroke(myRed,myGreen,myBlue);    
+    //convert degrees to radians for sin and cos                       
+    ellipse((float)myCenterX, (float)myCenterY, (float)20,(float)20);
+
+  
+  }   
+
+}
 class Star
 {
   private int myX, myY;
