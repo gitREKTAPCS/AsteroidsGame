@@ -1,8 +1,8 @@
 //your variable declarations here
-SpaceShip tomatillo = new SpaceShip();
+SpaceShip ship = new SpaceShip();
 Star rhinohippomachine[] = new Star[500];
 ArrayList <Asteroids> aster = new ArrayList <Asteroids>();
-ArrayList <Bullet> johnCena = new ArrayList <Bullet>();
+ArrayList <Bullet> bull = new ArrayList <Bullet>();
 boolean wIsPressed = false;
 boolean aIsPressed = false;
 boolean sIsPressed = false;
@@ -27,31 +27,60 @@ public void draw()
 {
   background(0);
  
- tomatillo.setRed((int)(Math.random()*255));
- tomatillo.setGreen((int)(Math.random()*255));
- tomatillo.setBlue((int)(Math.random()*255));
+ ship.setRed((int)(Math.random()*255));
+ ship.setGreen((int)(Math.random()*255));
+ ship.setBlue((int)(Math.random()*255));
 
-for(int i =0; i<rhinohippomachine.length; i++){
-  rhinohippomachine[i].show();
+for(Star rhinoTemp: rhinohippomachine){
+  rhinoTemp.show();
 }
 
 for(int i =0; i<aster.size(); i++){
   aster.get(i).move();
   aster.get(i).show();
 
-  if(dist(aster.get(i).getX(),aster.get(i).getY(),tomatillo.getX(),tomatillo.getY())<=20){
-    aster.remove(i);
+  if(dist(aster.get(i).getX(),aster.get(i).getY(),ship.getX(),ship.getY())<=20){
+   aster.remove(i); 
+  }
+  for(int x =0; x<bull.size(); x++){
+    if(dist(aster.get(i).getX(),aster.get(i).getY(),bull.get(x).getX(),bull.get(x).getY())<=20){
+      aster.remove(i);
+      bull.remove(x);
+      break;
+    }
+ 
   }
 }
 
-  for(int i =0; i<johnCena.size(); i++){
-    
-    johnCena.get(i).move();
-    johnCena.get(i).show();
-  }
+for(int x =0; x<bull.size(); x++){   
+  bull.get(x).move();
+  bull.get(x).show();
+ 
+ if(bull.get(x).getX() >width)
+    {     
+     bull.remove(x); 
+     break;  
+    }    
+    else if (bull.get(x).getX()<0)
+    {     
+     bull.remove(x);
+     break;    
+    }    
+    if(bull.get(x).getY() >height)
+    {    
+     bull.remove(x);
+     break;    
+    }   
+    else if (bull.get(x).getY() < 0)
+    {     
+     bull.remove(x);
+     break;
+      }  
 
-  tomatillo.move();
-  tomatillo.show();
+}
+
+  ship.move();
+  ship.show();
  
 
 }
@@ -62,74 +91,74 @@ public void keyPressed(){
 
   if(aIsPressed == true && wIsPressed == true)
   {
-    tomatillo.accelerate(.1);
-    tomatillo.setForward(true);
-    tomatillo.rotate(-5);
+    ship.accelerate(.1);
+    ship.setForward(true);
+    ship.rotate(-5);
 
   }
   if(sIsPressed == true && dIsPressed == true)
   {
-    tomatillo.declerate(.1);
-    tomatillo.setBackward(true);
-    tomatillo.rotate(5);
+    ship.declerate(.1);
+    ship.setBackward(true);
+    ship.rotate(5);
   }
    if(aIsPressed == true && sIsPressed == true)
   {
-    tomatillo.declerate(.1);
-    tomatillo.setBackward(true);
-    tomatillo.rotate(-5);
+    ship.declerate(.1);
+    ship.setBackward(true);
+    ship.rotate(-5);
 
   }
   if(wIsPressed == true && dIsPressed == true)
   {
-    tomatillo.accelerate(.1);
-    tomatillo.setForward(true);
-    tomatillo.rotate(5);
+    ship.accelerate(.1);
+    ship.setForward(true);
+    ship.rotate(5);
   }
 
 
   if(key == 'w' ){
-    tomatillo.accelerate(.1);
-    tomatillo.setForward(true);
+    ship.accelerate(.1);
+    ship.setForward(true);
     wIsPressed=true;
   }
   else{
-    tomatillo.setForward(false);
+    ship.setForward(false);
   }
   
   if(key == 's' ){
-    tomatillo.declerate(.1);
-    tomatillo.setBackward(true);
+    ship.declerate(.1);
+    ship.setBackward(true);
     sIsPressed=true;
   }
   else{
-    tomatillo.setBackward(false);
+    ship.setBackward(false);
   }
  
 //rotate to right
   if(key == 'd'){
-    tomatillo.rotate(5);
+    ship.rotate(5);
     dIsPressed=true;
   }
   
 
 //rotate to left
   if(key == 'a'){
-    tomatillo.rotate(-5);
+    ship.rotate(-5);
     aIsPressed=true;
   }
 
-  if(key == 'x'){
-    johnCena.add(new Bullet(tomatillo));
+  if(key == 'c'){
+    bull.add(new Bullet(ship));
   }
 
 if (key == CODED) {
   if(keyCode == RIGHT){
-    tomatillo.rotate(5);
+    ship.rotate(5);
     dIsPressed=true;
   }
   if(keyCode == LEFT){
-    tomatillo.rotate(-5);
+    ship.rotate(-5);
     aIsPressed=true;
   }
 
@@ -137,19 +166,19 @@ if (key == CODED) {
   }
 
   if(key == 'f'){
-    tomatillo.setX((int)(Math.random()*500));
-    tomatillo.setY((int)(Math.random()*500));
-    tomatillo.setDirectionX(0);
-    tomatillo.setDirectionY(0);
-    tomatillo.setPointDirection((int)(Math.random()*360));
+    ship.setX((int)(Math.random()*500));
+    ship.setY((int)(Math.random()*500));
+    ship.setDirectionX(0);
+    ship.setDirectionY(0);
+    ship.setPointDirection((int)(Math.random()*360));
   }
 
 //automatic hyperspace
-  if(tomatillo.getDirectionX() >100 || tomatillo.getDirectionY() >100){
-    tomatillo.setX(500);
-    tomatillo.setX(500);
-    tomatillo.setDirectionX(0);
-    tomatillo.setDirectionY(0);
+  if(ship.getDirectionX() >100 || ship.getDirectionY() >100){
+    ship.setX(500);
+    ship.setX(500);
+    ship.setDirectionX(0);
+    ship.setDirectionY(0);
   }
 
 }
@@ -162,13 +191,13 @@ public void keyReleased(){
   else if (key == 'w')
   {
     wIsPressed = false;
-    tomatillo.setForward(false);
+    ship.setForward(false);
   }
 
   if(key=='s')
   {
     sIsPressed = false;
-    tomatillo.setBackward(false);
+    ship.setBackward(false);
   }
   else if (key == 'd')
   {
@@ -180,7 +209,7 @@ public void keyReleased(){
     dIsPressed=false;
   }
   if(keyCode == LEFT){
-    tomatillo.rotate(-5);
+    ship.rotate(-5);
     aIsPressed=false;
   }
   }
@@ -607,12 +636,39 @@ public void setX(int x){myCenterX=x;}
     fill(myRed,myGreen,myBlue);   
     stroke(myRed,myGreen,myBlue);    
     //convert degrees to radians for sin and cos                       
-    ellipse((float)myCenterX, (float)myCenterY, (float)20,(float)20);
+    ellipse((float)myCenterX, (float)myCenterY, (float)5,(float)5);
 
   
-  }   
+  }
 
-}
+   public void move ()   //move the floater in the current direction of travel
+  {      
+    
+    //change the x and y coordinates by myDirectionX and myDirectionY       
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY;     
+
+    /*//wrap around screen    
+    if(myCenterX >width)
+    {     
+      myCenterX = 0;    
+    }    
+    else if (myCenterX<0)
+    {     
+      myCenterX = width;    
+    }    
+    if(myCenterY >height)
+    {    
+      myCenterY = 0;    
+    }   
+    else if (myCenterY < 0)
+    {     
+      myCenterY = height; 
+      }  
+      */ 
+    }   
+  }      
+
 class Star
 {
   private int myX, myY;
