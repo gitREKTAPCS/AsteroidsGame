@@ -7,6 +7,7 @@ boolean wIsPressed = false;
 boolean aIsPressed = false;
 boolean sIsPressed = false;
 boolean dIsPressed = false;
+PFont f;
 
 public void setup() 
 {
@@ -19,7 +20,7 @@ public void setup()
     aster.add(new Asteroids());
   }
 
-  
+  f = createFont("Calbri",34,true);           
 
 }
 
@@ -35,16 +36,18 @@ for(Star rhinoTemp: rhinohippomachine){
   rhinoTemp.show();
 }
 
+ ship.move();
+  ship.show();
+
 for(int i =0; i<aster.size(); i++){
   aster.get(i).move();
   aster.get(i).show();
 
-  if(dist(aster.get(i).getX(),aster.get(i).getY(),ship.getX(),ship.getY())<=20){
-   aster.remove(i); 
-  }
   for(int x =0; x<bull.size(); x++){
     if(dist(aster.get(i).getX(),aster.get(i).getY(),bull.get(x).getX(),bull.get(x).getY())<=20){
       aster.remove(i);
+      aster.add(new Asteroids());
+      aster.add(new Asteroids());
       bull.remove(x);
       break;
     }
@@ -79,12 +82,24 @@ for(int x =0; x<bull.size(); x++){
 
 }
 
-  ship.move();
-  ship.show();
- 
+for(int i =0; i<aster.size(); i++){
+  if(dist(aster.get(i).getX(),aster.get(i).getY(),ship.getX(),ship.getY())<=20){
+   lose();
+   break;
+  }
+  }
 
 }
 
+
+void lose(){
+    background(0);
+    textFont(f,16);                 
+    fill(255);                        
+    text("YOU LOOOOOOOOSE!!!",200,256); 
+    noLoop(); 
+ }
+ 
 public void keyPressed(){
 
   //acclerate + decelerate with limits
@@ -148,7 +163,7 @@ public void keyPressed(){
     aIsPressed=true;
   }
 
-  if(key == 'c'){
+  if(key == ' '){
     bull.add(new Bullet(ship));
   }
 
