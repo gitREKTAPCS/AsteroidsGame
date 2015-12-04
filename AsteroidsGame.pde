@@ -7,6 +7,7 @@ boolean wIsPressed = false;
 boolean aIsPressed = false;
 boolean sIsPressed = false;
 boolean dIsPressed = false;
+boolean spaceIsPressed = false;
 PFont f;
 
 public void setup() 
@@ -131,6 +132,36 @@ public void keyPressed(){
     ship.rotate(5);
   }
 
+  if(aIsPressed == true && spaceIsPressed == true)
+  {
+    ship.rotate(-5);
+    bull.add(new Bullet(ship));
+
+  }
+
+  if(dIsPressed == true && spaceIsPressed == true)
+  {
+    ship.rotate(5);
+    bull.add(new Bullet(ship));
+
+  }
+
+  if(wIsPressed == true && spaceIsPressed == true)
+  {
+   ship.accelerate(.1);
+    ship.setForward(true);
+    bull.add(new Bullet(ship));
+
+  }
+
+  if(sIsPressed == true && spaceIsPressed == true)
+  {
+    ship.declerate(.1);
+    ship.setBackward(true);
+    bull.add(new Bullet(ship));
+
+  }
+
 
   if(key == 'w' ){
     ship.accelerate(.1);
@@ -165,6 +196,7 @@ public void keyPressed(){
 
   if(key == ' '){
     bull.add(new Bullet(ship));
+    spaceIsPressed=true;
   }
 
 if (key == CODED) {
@@ -218,7 +250,9 @@ public void keyReleased(){
   {
     dIsPressed = false;
   }
-
+if(key==' '){
+  spaceIsPressed=false;
+}
   if (key == CODED) {
   if(keyCode == RIGHT){
     dIsPressed=false;
@@ -618,7 +652,7 @@ public void setX(int x){myCenterX=x;}
 
   public int getX(){return (int)(myCenterX);}   
 
-  public void setY(int y){myCenterY=y;}   
+  public void setY(int y){myCenterY=y;}      
 
   public int getY(){return (int)(myCenterY);}   
   
@@ -629,7 +663,7 @@ public void setX(int x){myCenterX=x;}
   public void setDirectionY(double y){myDirectionY=y;}  
 
   public double getDirectionY(){return myDirectionY;} 
-
+ 
   public void setPointDirection(int degrees){myPointDirection=degrees;} 
 
   public double getPointDirection(){return myPointDirection;}
