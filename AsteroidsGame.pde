@@ -9,6 +9,9 @@ boolean sIsPressed = false;
 boolean dIsPressed = false;
 boolean spaceIsPressed = false;
 PFont f;
+int pointCounter=0;
+String pointScore;
+BossAsteroid boss = new BossAsteroid();
 
 public void setup() 
 {
@@ -17,8 +20,12 @@ public void setup()
   rhinohippomachine[i] = new Star();
 }
   
-  for(int x=0; x<9; x++){
+  for(int x=0; x<13; x++){
     aster.add(new Asteroids());
+    if(dist(aster.get(x).getX(),aster.get(x).getY(),ship.getX(),ship.getY())<=40){
+    aster.get(x).setX((int)(Math.random()*500));
+    aster.get(x).setY((int)(Math.random()*500));
+  }
   }
 
   f = createFont("Calbri",34,true);           
@@ -36,24 +43,58 @@ public void draw()
 for(Star rhinoTemp: rhinohippomachine){
   rhinoTemp.show();
 }
+pointScore="Points: "+pointCounter;
+text(pointScore,390,15); 
+fill(255);
+textSize(15);
 
  ship.move();
   ship.show();
 
 for(int i =0; i<aster.size(); i++){
   aster.get(i).move();
+  
   aster.get(i).show();
 
   for(int x =0; x<bull.size(); x++){
     if(dist(aster.get(i).getX(),aster.get(i).getY(),bull.get(x).getX(),bull.get(x).getY())<=20){
       aster.remove(i);
-      aster.add(new Asteroids());
-      aster.add(new Asteroids());
+      pointCounter+=10;
+      aster.add(new Asteroids());  
       bull.remove(x);
+      
       break;
     }
  
   }
+}
+
+if(pointCounter>=1000){
+   boss.move();
+   if(boss.getHits()<=7){
+     boss.show();
+   }
+   else{
+     pointCounter+=100;
+   }
+
+ 
+
+  if(dist(boss.getX(),boss.getY(),ship.getX(),ship.getY())<=20){
+   lose();
+  }
+
+  for(int x =0; x<bull.size(); x++){
+    if(dist(boss.getX(),boss.getY(),bull.get(x).getX(),bull.get(x).getY())<=100){
+      pointCounter+=10; 
+      bull.remove(x);
+      boss.addHits();
+      
+    }
+ 
+  }
+
+
 }
 
 for(int x =0; x<bull.size(); x++){   
@@ -86,18 +127,21 @@ for(int x =0; x<bull.size(); x++){
 for(int i =0; i<aster.size(); i++){
   if(dist(aster.get(i).getX(),aster.get(i).getY(),ship.getX(),ship.getY())<=20){
    lose();
-   break;
   }
+
   }
 
 }
 
 
-void lose(){
+public void lose(){
     background(0);
     textFont(f,16);                 
     fill(255);                        
-    text("YOU LOOOOOOOOSE!!!",200,256); 
+    text("YOU LOOOOOOOOSE!!!",160,206); 
+    text("Refresh Page to Restart",160,226);
+    text("Score: ",160,276);
+    text(pointScore,220,276); 
     noLoop(); 
  }
  
@@ -639,7 +683,7 @@ class Bullet extends Floater{
   Bullet(SpaceShip theShip){
     myCenterX=theShip.getX();
     myCenterY=theShip.getY();
-    myPointDirection=theShip.myPointDirection;
+    myPointDirection=theShip.getPointDirection();
     dRadians = myPointDirection*(Math.PI/180);   
     myDirectionX=5*Math.cos(dRadians) + myDirectionX;
     myDirectionY=5*Math.sin(dRadians) + myDirectionY;
@@ -717,6 +761,61 @@ public void setX(int x){myCenterX=x;}
       */ 
     }   
   }      
+
+
+class BossAsteroid extends Asteroids{
+
+  private int hits;
+
+  BossAsteroid(){
+    hits =0;
+
+    myRed=100;
+    myGreen=100;
+    myBlue=100;
+
+    corners=8;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+
+    xCorners[0]=28*4;
+    yCorners[0]=0*4;
+
+    xCorners[1]=20*4;
+    yCorners[1]=24*4;
+
+    xCorners[2]=0*4;
+    yCorners[2]=32*4;
+
+    xCorners[3]=-16*4;
+    yCorners[3]=16*4;
+
+    xCorners[4]=-20*4;
+    yCorners[4]=-8*4;
+
+    xCorners[5]=-8*4;
+    yCorners[5]=-32*4;
+
+    xCorners[6]=8*4;
+    yCorners[6]=-16*4;
+
+    xCorners[7]=24*4;
+    yCorners[7]=-20*4;
+}
+
+public int getHits(){
+  return hits;
+}
+
+public void setHits(int daHits){
+  hits = daHits;
+}
+
+public void addHits(){
+  hits++;
+}
+}
+
 
 class Star
 {
