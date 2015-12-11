@@ -8,10 +8,16 @@ boolean aIsPressed = false;
 boolean sIsPressed = false;
 boolean dIsPressed = false;
 boolean spaceIsPressed = false;
+boolean rIsPressed = false;
 PFont f;
 int pointCounter=0;
 String pointScore;
 BossAsteroid boss = new BossAsteroid();
+BossAsteroid boss2 = new BossAsteroid();
+BossAsteroid boss3 = new BossAsteroid();
+boolean loser = false;
+boolean gameOver = false;
+
 
 public void setup() 
 {
@@ -28,12 +34,34 @@ public void setup()
   }
   }
 
-  f = createFont("Calbri",34,true);           
+  f = createFont("Calbri",34,true);          
 
 }
 
 public void draw() 
 {
+
+  pointScore="Points: "+pointCounter;
+text(pointScore,390,15); 
+fill(255);
+textSize(15);
+
+  if(gameOver == true )
+  {
+    background(0);
+    textFont(f,16);                 
+    fill(255);                        
+    text("YOU LOOOOOOOOSE!!!",160,206); 
+    text("Refresh Page to Restart",160,226);
+    text("Score: ",160,276);
+    text(pointScore,220,276);
+    loser=true;
+    if(mousePressed == true){
+      redraw();
+    }
+  } 
+  else{
+
   background(0);
  
  ship.setRed((int)(Math.random()*255));
@@ -43,10 +71,7 @@ public void draw()
 for(Star rhinoTemp: rhinohippomachine){
   rhinoTemp.show();
 }
-pointScore="Points: "+pointCounter;
-text(pointScore,390,15); 
-fill(255);
-textSize(15);
+
 
  ship.move();
   ship.show();
@@ -78,10 +103,9 @@ if(pointCounter>=1000){
      pointCounter+=100;
    }
 
- 
-
   if(dist(boss.getX(),boss.getY(),ship.getX(),ship.getY())<=20){
-   lose();
+   //lose();
+   gameOver = true;
   }
 
   for(int x =0; x<bull.size(); x++){
@@ -94,8 +118,44 @@ if(pointCounter>=1000){
  
   }
 
-
 }
+
+if(pointCounter>=10000){
+   boss3.move();
+   boss2.move();
+   if(boss3.getHits()<=7){
+     boss3.show();
+   }
+   if(boss2.getHits()<=7){
+     boss2.show();
+   }
+
+  if(dist(boss3.getX(),boss3.getY(),ship.getX(),ship.getY())<=20){
+   //lose();
+   gameOver = true;
+  }
+  if(dist(boss2.getX(),boss2.getY(),ship.getX(),ship.getY())<=20){
+    //lose();
+   gameOver = true;
+  }
+
+  for(int x =0; x<bull.size(); x++){
+    if(dist(boss3.getX(),boss3.getY(),bull.get(x).getX(),bull.get(x).getY())<=100){
+      pointCounter+=10; 
+      bull.remove(x);
+      boss3.addHits();
+      break;
+      
+    }
+    if(dist(boss2.getX(),boss2.getY(),bull.get(x).getX(),bull.get(x).getY())<=100){
+      pointCounter+=10; 
+      bull.remove(x);
+      boss2.addHits();
+      break;
+      
+    }
+ }
+  }
 
 for(int x =0; x<bull.size(); x++){   
   bull.get(x).move();
@@ -126,15 +186,18 @@ for(int x =0; x<bull.size(); x++){
 
 for(int i =0; i<aster.size(); i++){
   if(dist(aster.get(i).getX(),aster.get(i).getY(),ship.getX(),ship.getY())<=20){
-   lose();
+  gameOver = true;
+  //lose();
   }
 
   }
-
+}
 }
 
 
-public void lose(){
+
+
+/*public void lose(){
     background(0);
     textFont(f,16);                 
     fill(255);                        
@@ -142,8 +205,11 @@ public void lose(){
     text("Refresh Page to Restart",160,226);
     text("Score: ",160,276);
     text(pointScore,220,276); 
-    noLoop(); 
- }
+    loser=true;
+    noLoop();
+ }*/
+ 
+ 
  
 public void keyPressed(){
 
@@ -203,6 +269,16 @@ public void keyPressed(){
     ship.declerate(.1);
     ship.setBackward(true);
     bull.add(new Bullet(ship));
+
+  }
+
+  if(rIsPressed==true && loser==true){
+    redraw();
+  }
+
+
+  if(key == 'r'){
+   rIsPressed=true;
 
   }
 
@@ -297,6 +373,11 @@ public void keyReleased(){
 if(key==' '){
   spaceIsPressed=false;
 }
+if(key == 'r'){
+  rIsPressed=true;
+}else{
+  rIsPressed=false;
+}
   if (key == CODED) {
   if(keyCode == RIGHT){
     dIsPressed=false;
@@ -307,6 +388,9 @@ if(key==' '){
   }
   }
 }
+
+
+
 
 class SpaceShip extends Floater  
 {   
