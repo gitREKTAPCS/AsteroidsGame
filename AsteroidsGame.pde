@@ -41,10 +41,7 @@ public void setup()
 public void draw() 
 {
 
-  pointScore="Points: "+pointCounter;
-text(pointScore,390,15); 
-fill(255);
-textSize(15);
+  
 
   if(gameOver == true )
   {
@@ -63,7 +60,10 @@ textSize(15);
   else{
 
   background(0);
- 
+ pointScore="Points: "+pointCounter;
+text(pointScore,390,15); 
+fill(255);
+textSize(15);
  ship.setRed((int)(Math.random()*255));
  ship.setGreen((int)(Math.random()*255));
  ship.setBlue((int)(Math.random()*255));
