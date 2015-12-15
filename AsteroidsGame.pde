@@ -745,8 +745,8 @@ private int rotSpeed;
     myCenterY=(double)(Math.random()*500);
     
 
-    myDirectionX=(double)(Math.random()*1.5);
-    myDirectionY=(double)(Math.random()*1.5);
+    myDirectionX=(double)(Math.random()*2)-1;
+    myDirectionY=(double)(Math.random()*2)-1;
 
     myPointDirection=(int)(Math.random()*360);
 
